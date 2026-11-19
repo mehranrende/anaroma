@@ -2,6 +2,8 @@
 # Yeni bir veritabani olusturur ve Community'deki tum uygulamalari kurar.
 # Kullanim: ./scripts/init_db.sh [veritabani_adi]   (varsayilan: anaroma)
 set -euo pipefail
+# Windows Git Bash: /mnt/... yollarini Windows yoluna cevirmesin
+export MSYS_NO_PATHCONV=1
 cd "$(dirname "$0")/.."
 
 DB="${1:-anaroma}"
