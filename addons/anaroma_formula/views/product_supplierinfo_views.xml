@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Urun kartindaki Satin Alma > Tedarikciler listesi -->
+    <record id="product_supplierinfo_tree_view2_anaroma" model="ir.ui.view">
+        <field name="name">product.supplierinfo.list.view2.anaroma</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="anaroma_country_id" optional="show"/>
+            </field>
+            <field name="min_qty" position="attributes">
+                <attribute name="optional">show</attribute>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="groups"/>
+            </field>
+            <field name="currency_id" position="after">
+                <field name="anaroma_company_currency_id" column_invisible="1"/>
+                <field name="anaroma_price_per_kg" widget="monetary" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Formulasyon > Tedarikci Fiyatlari: tum hammaddelerin fiyat karsilastirmasi -->
+    <record id="product_supplierinfo_list_anaroma" model="ir.ui.view">
+        <field name="name">product.supplierinfo.list.anaroma</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list string="Tedarikçi Fiyatları" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="product_tmpl_id" string="Hammadde" domain="[('anaroma_kind', '=', 'raw')]"/>
+                <field name="partner_id" context="{'res_partner_search_mode': 'supplier'}"/>
+                <field name="anaroma_country_id"/>
+                <field name="product_code" optional="hide"/>
+                <field name="min_qty"/>
+                <field name="product_uom_id" widget="many2one_uom" options="{'no_quick_create': True}"/>
+                <field name="price"/>
+                <field name="currency_id"/>
+                <field name="discount" optional="hide"/>
+                <field name="anaroma_company_currency_id" column_invisible="1"/>
+                <field name="anaroma_min_qty_kg" optional="show"/>
+                <field name="anaroma_price_per_kg" widget="monetary"/>
+                <field name="delay" optional="show"/>
+                <field name="date_start" optional="hide"/>
+                <field name="date_end" optional="hide"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_supplierinfo_search_anaroma" model="ir.ui.view">
+        <field name="name">product.supplierinfo.search.anaroma</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_search_view"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="anaroma_country_id"/>
+                <field name="currency_id"/>
+            </field>
+            <filter name="groupby_vendor" position="after">
+                <filter name="groupby_country" string="Ülke" context="{'group_by': 'anaroma_country_id'}"/>
+                <filter name="groupby_currency" string="Para Birimi" context="{'group_by': 'currency_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="action_anaroma_supplierinfo" model="ir.actions.act_window">
+        <field name="name">Tedarikçi Fiyatları</field>
+        <field name="res_model">product.supplierinfo</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="product_supplierinfo_list_anaroma"/>
+        <field name="domain">[('product_tmpl_id.anaroma_kind', '=', 'raw')]</field>
+        <field name="context">{'visible_product_tmpl_id': False, 'search_default_groupby_product': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Tedarikçi fiyatı ekleyin</p>
+            <p>Aynı hammadde için farklı ülkelerden, farklı minimum miktar, para birimi ve
+               birimlerde fiyat girin. "Kg Fiyatı" sütunu hepsini güncel kurla aynı birime çevirir.</p>
+        </field>
+    </record>
+</odoo>

@@ -21,4 +21,9 @@ for manifest in sorted(ADDONS.glob("*/__manifest__.py")):
         continue
     apps.append(name)
 
+# Kendi modullerimiz (addons/ klasoru)
+for manifest in sorted(pathlib.Path("/mnt/extra-addons").glob("*/__manifest__.py")):
+    if ast.literal_eval(manifest.read_text()).get("installable", True):
+        apps.append(manifest.parent.name)
+
 print(",".join(apps + EXTRA))

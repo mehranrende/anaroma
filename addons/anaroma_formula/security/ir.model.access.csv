@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_formula_user,anaroma.formula user,model_anaroma_formula,group_formula_user,1,0,0,0
+access_formula_manager,anaroma.formula manager,model_anaroma_formula,group_formula_manager,1,1,1,1
+access_formula_line_user,anaroma.formula.line user,model_anaroma_formula_line,group_formula_user,1,0,0,0
+access_formula_line_manager,anaroma.formula.line manager,model_anaroma_formula_line,group_formula_manager,1,1,1,1

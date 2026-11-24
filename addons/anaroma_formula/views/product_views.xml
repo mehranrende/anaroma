@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_anaroma" model="ir.ui.view">
+        <field name="name">product.template.form.anaroma</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_anaroma_formulas" type="object" class="oe_stat_button" icon="fa-flask"
+                        invisible="anaroma_kind not in ('aroma', 'essence')"
+                        groups="anaroma_formula.group_formula_user">
+                    <field name="anaroma_formula_count" widget="statinfo" string="Formüller"/>
+                </button>
+                <button name="action_view_anaroma_used_in" type="object" class="oe_stat_button" icon="fa-sitemap"
+                        invisible="not anaroma_kind or anaroma_used_in_count == 0"
+                        groups="anaroma_formula.group_formula_user">
+                    <field name="anaroma_used_in_count" widget="statinfo" string="Kullanıldığı Formül"/>
+                </button>
+            </div>
+            <field name="categ_id" position="after">
+                <field name="anaroma_kind"/>
+                <field name="cas_number" invisible="anaroma_kind != 'raw'"/>
+                <field name="anaroma_density" invisible="not anaroma_kind"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_template_list_view_anaroma" model="ir.ui.view">
+        <field name="name">product.template.list.anaroma</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="anaroma_kind" optional="show"/>
+                <field name="cas_number" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="product_template_search_view_anaroma" model="ir.ui.view">
+        <field name="name">product.template.search.anaroma</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="cas_number"/>
+            </field>
+            <filter name="filter_to_sell" position="before">
+                <filter name="anaroma_raw" string="Hammadde" domain="[('anaroma_kind', '=', 'raw')]"/>
+                <filter name="anaroma_aroma" string="Aroma" domain="[('anaroma_kind', '=', 'aroma')]"/>
+                <filter name="anaroma_essence" string="Esans" domain="[('anaroma_kind', '=', 'essence')]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="action_anaroma_raw_materials" model="ir.actions.act_window">
+        <field name="name">Hammaddeler</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('anaroma_kind', '=', 'raw')]</field>
+        <field name="context">{'default_anaroma_kind': 'raw'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Hammadde ekleyin</p>
+            <p>Satın Alma sekmesinden her hammadde için birden çok tedarikçi, minimum miktar,
+               para birimi ve satın alma birimi tanımlayın.</p>
+        </field>
+    </record>
+
+    <record id="action_anaroma_products" model="ir.actions.act_window">
+        <field name="name">Aroma ve Esanslar</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('anaroma_kind', 'in', ('aroma', 'essence'))]</field>
+        <field name="context">{'default_anaroma_kind': 'essence'}</field>
+    </record>
+</odoo>

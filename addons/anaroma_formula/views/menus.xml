@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_anaroma_root" name="Formülasyon" sequence="34"
+              web_icon="anaroma_formula,static/description/icon.png"
+              groups="anaroma_formula.group_formula_user"/>
+
+    <menuitem id="menu_anaroma_formula" name="Formüller" parent="menu_anaroma_root"
+              action="action_anaroma_formula" sequence="10"/>
+
+    <menuitem id="menu_anaroma_products_root" name="Ürünler" parent="menu_anaroma_root" sequence="20"/>
+    <menuitem id="menu_anaroma_products" name="Aroma ve Esanslar" parent="menu_anaroma_products_root"
+              action="action_anaroma_products" sequence="10"/>
+    <menuitem id="menu_anaroma_raw" name="Hammaddeler" parent="menu_anaroma_products_root"
+              action="action_anaroma_raw_materials" sequence="20"/>
+
+    <menuitem id="menu_anaroma_purchase_root" name="Tedarik" parent="menu_anaroma_root" sequence="30"/>
+    <menuitem id="menu_anaroma_supplierinfo" name="Tedarikçi Fiyatları" parent="menu_anaroma_purchase_root"
+              action="action_anaroma_supplierinfo" sequence="10"/>
+    <menuitem id="menu_anaroma_vendors" name="Tedarikçiler" parent="menu_anaroma_purchase_root"
+              action="account.res_partner_action_supplier" sequence="20"/>
+
+    <menuitem id="menu_anaroma_config" name="Yapılandırma" parent="menu_anaroma_root" sequence="90"
+              groups="anaroma_formula.group_formula_manager"/>
+    <menuitem id="menu_anaroma_uom" name="Birimler" parent="menu_anaroma_config"
+              action="uom.product_uom_form_action" sequence="10"/>
+    <menuitem id="menu_anaroma_currency" name="Para Birimleri ve Kurlar" parent="menu_anaroma_config"
+              action="base.action_currency_form" sequence="20"/>
+</odoo>
